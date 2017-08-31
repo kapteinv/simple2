@@ -1,0 +1,33 @@
+{% extends "base.html" %}{# not myself but a site-level one (TEMPLATE_DIRS setting) #}
+{% load i18n static %}{% load postman_tags %}
+{% block title %}{% trans "Messaging" %}{% endblock %}
+{% block extrahead %}{{ block.super }}
+<link type="text/css" media="all" rel="stylesheet" href="{% static 'postman/css/postman.css' %}" />
+{% endblock %}
+{% block postman_menu %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            <table id="postman_menu" class="table table-hover">{% postman_unread as unread_count %}
+                <tbody>
+                    <tr>
+                        <td><a href="{% url 'postman:inbox' %}">&raquo;&nbsp;{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="{% url 'postman:sent' %}">&raquo;&nbsp;{% trans "Sent Messages" %}</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="{% url 'postman:write' %}">&raquo;&nbsp;{% trans "Write" %}</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="{% url 'postman:archives' %}">&raquo;&nbsp;{% trans "Archives" %}</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="{% url 'postman:trash' %}">&raquo;&nbsp;{% trans "Trash" %}</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
