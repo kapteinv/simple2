@@ -1,0 +1,118 @@
+{% extends "base.html" %} {% load i18n %}
+{% block title %}Create an account to FDW-Market!{% endblock %}
+{% block content_block %}
+<!-- Page Content -->
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<article class="col-xs-12 maincontent">
+						<header class="page-header">
+							<h1 class="page-title">
+								<font color="#1F45FC">Inscription</font>
+							</h1>
+						</header>
+
+						<div align="center">
+							<h3 class="widget-title">
+								<font color="red">Enregistrer un compte sur le FDW-Market
+								</font>
+							</h3>
+							Afin d'augmenter la sécurité et la confiance entre les membres,
+							votre compte est lié à votre identité FDW.
+							<p />
+
+							Afin de créer un compte sur le market, vous devez disposer d'un
+							compte sur le <a href="http://fdwocbsnity6vzwd.onion">forum French Deep Web</a> et remplir le formulaire
+							suivant. Veillez à bien lire <a href="{% url 'rules' %}">les
+								conditions d'utilisation</a> avant de créer un compte
+							<p />
+							En cas de souci lors de la création du compte ou si vous
+							souhaitez créer un compte non lié à une identité FDW, vous pouvez
+							contacter un modo en laissant un message sur le forum ou sur le
+							salon de discussion XMPP.
+							<p />
+
+							<br />
+						</div>
+
+						<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<h3 class="thin text-center">Création du compte après
+										vérification de l'identité FDW</h3>
+									<hr>
+
+									<form action="" method="post">
+										{% csrf_token %}
+										{% if form.errors %}
+											<div class="alert alert-danger">{{ form.non_field_errors }}</div>
+										{% endif %}
+										<div class="top-margin">
+											<label for="id_fdw_identity">Identité sur FDW : </label> <input
+												id="id_fdw_identity" name="fdw_identity" type="text"
+												class="form-control" />
+										</div>
+										<div class="top-margin">
+											<label for="id_fdw_password_raw">Mot de passe sur FDW
+												:</label> <input id="id_fdw_password_raw" name="fdw_password_raw"
+												type="password" class="form-control" /> <span
+												class="text-danger"><i> Renseignez le mot de
+													passe de votre compte FDW.</i></span>
+										</div>
+										<div class="top-margin">
+											{{ form.username.errors }} <label for="id_username">Nom
+												d'utilisateur :</label> <input id="id_username" maxlength="30"
+												name="username" type="text" class="form-control" /> <span
+												class="text-danger"><i>Requis. 30 caractères
+													maximum. Uniquement des lettres, nombres et les caractères
+													« @ », « . », « + », « - » et « _ ».</i></span>
+										</div>
+										<div class="row top-margin">
+											<div class="col-sm-6"><br>
+												<label for="id_password1">Mot de passe :</label> <input
+													id="id_password1" name="password1" type="password"
+													class="form-control" />
+											</div>
+											<div class="col-sm-6">
+												<label for="id_password2">Confirmation du mot de passe :</label> <input
+													id="id_password2" name="password2" type="password"
+													class="form-control" /> <span class="helptext">Saisissez
+													le même mot de passe que précédemment, pour vérification.</span>
+											</div>
+										</div>
+										<div class="top-margin">
+											<label for="id_email">Adresse électronique :</label> <input
+												id="id_email" name="email" type="email" class="form-control" />
+										</div>
+										<div class="top-margin">
+											<label for="id_gpg">Clé publique GPG :</label>
+											<textarea cols="40" id="id_gpg" name="gpg" class="form-control" rows="10"> </textarea>
+										</div>
+
+										<hr>
+
+										<div class="row">
+											<div class="col-lg-8">
+												<div class="col-lg-4 text-right">
+													<button class="btn btn-action" type="submit" value="Submit">S'enregistrer</button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+
+						</div>
+
+					</article>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- /.container -->
+</div>
+{% endblock %}

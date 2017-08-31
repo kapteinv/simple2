@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content_block %}
+{% if user.account.slug == account.slug %}
+
+<div class="container">
+	<div class="col-lg-8 col-lg-offset-2">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="col-lg-8 col-lg-offset-2">
+					<h2 class="text-center">Modifier votre profil</h2>
+					<br />
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<form id="profile_update_form" method="post" action=""
+								enctype="multipart/form-data">
+
+								<div class="form-group">
+								{% csrf_token %} {{ form.as_p }}
+								</div>
+								<input type="submit" class="btn btn-primary pull-right"
+									name="submit" value="Modifier profil" />
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% else %}
+	<meta http-equiv="REFRESH" content="0;url=/">
+{% endif %}
+{% endblock %}

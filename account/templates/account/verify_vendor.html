@@ -1,0 +1,77 @@
+{% extends "base.html" %} {% load i18n %}
+{% block title %}Get vendor rights!{% endblock %}
+{% block content_block %}
+<!-- Page Content -->
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<article class="col-xs-12 maincontent">
+						<header class="page-header">
+							<h1 class="page-title">
+								<font color="#1F45FC">Demande de compte vendeur</font>
+							</h1>
+						</header>
+
+                        <div align="center">
+
+                        {% if perms.shops.add_shop %}
+                            <div class="alert alert-danger">
+                                Vous êtes déjà vendeur!
+                            </div>
+                        {% else %}
+
+							<h3 class="widget-title">
+								<font color="red">Postez un message signé avec votre clef openPGP
+								</font>
+							</h3>
+                            <p>
+							Pour obtenir les droits vendeurs, postez une demande sous forme d'un message signé avec la clef openPGP sur votre profil.
+                            Si le message est correctement signé, les droits vendeur vous seront accordés
+							<p />
+
+						</div>
+
+						<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<h3 class="thin text-center">Ajout des droits vendeur après
+										vérification de la signature openPGP</h3>
+									<hr>
+
+                                    <form action="{% url 'verifyvendor' %}" method="post">
+										{% csrf_token %} {{ form.non_field_errors }}
+										<div class="top-margin">
+											<label for="id_signed_msg">Message signé : </label>
+											<textarea cols="40" id="id_signed_msg" name="signed_msg" class="form-control" rows="10"> </textarea>
+                                        </div>
+
+										<hr>
+
+										<div class="row">
+											<div class="col-lg-8">
+												<div class="col-lg-4 text-right">
+													<button class="btn btn-action" type="submit" value="Submit">Verifier</button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+                            </div>
+
+                        {% endif %}
+
+						</div>
+
+					</article>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- /.container -->
+</div>
+{% endblock %}

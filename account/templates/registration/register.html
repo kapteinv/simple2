@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Créer un compte FDW-Market{% endblock %}
+
+{% block content %}
+<form method="post" action=".">
+  {% csrf_token %}
+
+  <div class="form-group">
+    <label for="id_username">Username</label>
+    <input class="form-control" id="id_username" name="username" />
+  </div>
+
+  <div class="form-group">
+    <label for="id_pin">PIN</label>
+    <input class="form-control" id="id_pin" name="pin" type="password" />
+  </div>
+
+  <div class="form-group">
+    <label for="id_password1">Password</label>
+    <input class="form-control" id="id_password1" name="password1" type="password" />
+  </div>
+
+  <div class="form-group">
+    <label for="id_password2">Password (again)</label>
+    <input class="form-control" id="id_password2" name="password2" type="password" />
+  </div>
+
+  <input type="submit" value="{% trans 'Submit' %}" class="btn btn-primary" />
+</form>
+{% endblock %}
+
+
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+
+{% block content_block %}
+<!-- CUSTOM STYLE CSS -->
+    <style type="text/css">
+               .btn-social {
+            color: white;
+            opacity: 0.8;
+        }
+
+            .btn-social:hover {
+                color: white;
+                opacity: 1;
+                text-decoration: none;
+            }
+
+        .btn-facebook {
+            background-color: #3b5998;
+        }
+
+        .btn-twitter {
+            background-color: #00aced;
+        }
+
+        .btn-linkedin {
+            background-color: #0e76a8;
+        }
+
+        .btn-google {
+            background-color: #c32f10;
+        }
+    </style>
+
+
+
+
+<!-- NAVBAR CODE END -->
+
+
+    <div class="container">
+        <section style="padding-bottom: 50px; padding-top: 50px;">
+            <div class="row">
+                <div class="col-md-4">
+                    <!-- taille max avatar 250x250 actualy 128x128-->
+                    {% ifequal account.avatar '' %}
+                        <img src="{{ MEDIA_URL }}/media/media/profile_avatar/noavatar.png" alt="avatar" class="img-rounded img-responsive" />
+                    {% else %}
+                        <img src="{{ account.avatar.url }}" alt="avatar" class="img-rounded img-responsive" />
+                    {% endifequal %}
+                    <br />
+                    <br />
+                    {% for group in account.user.groups.all %}
+                        {% ifequal group.name 'vendor' %}
+                            {% if account.user.shop %}
+                                <a href="{% url 'shop_detail' account.user.shop.slug %}" class="btn btn-social btn-twitter">Accéder au shop</a>
+                                <br />
+                            {% elif account.user == request.user %}
+                                <a href="{% url 'add_shop' %}" class="btn btn-warning">Créer un shop</a>
+                            {% else %}
+                                <div class="btn btn-danger">Pas de shop</div>
+                            {% endif %}
+                        {% endifequal %}
+                    {% endfor %}
+
+                    {% if not perms.shops.add_shop %}
+                        {% if account.user == request.user %}
+                            <a href="{% url 'verifyvendor' %}" class="btn btn-warning">Devenir vendeur</a>
+                        {% endif %}
+                    {% endif %}
+
+                    <a href="{%url 'postman:write' account.user %}" class="btn btn-social btn-twitter">Envoyer un message privé</a>
+
+                    <h2>Feedbacks</h2>
+                    <div class="form-group col-md-8">
+                        <a href="{% url 'feedbacklist' account.slug %}" class="">
+                            <strong>Voir</strong>
+                        </a>
+                        {% if user.account.slug != account.slug %}
+                        <a href="{%url 'addfeedback' account.slug %}" class="">
+                            <strong>Ajouter</strong>
+                        </a>
+                        {% endif %}
+                    </div><br /><br />
+
+                    <div class="alert alert-info">
+                    <p>
+                        <strong>Likes : {{ account.likes }}</strong><br />
+                        <strong>Unlikes : {{ account.unlikes }} </strong><br />
+                        <strong>Total : {{ account.nbre_feeds }}</strong><br />
+                        <strong>Moyenne : {{ account.average }} %</strong>
+                    </p>
+                    </div>
+                    {% if account.user != request.user and account.banned is False %}
+                        <a href="{%url 'add_scamreport' account.slug %}">Ouvrir un scam/report</a>
+                    {% endif %}
+
+
+                    <h3>Clé publique openPGP</h3>
+                    <p><strong> Fingerprint: {{ account.fingerprint }}</strong></p>
+                    <pre><code>{{ account.gpg }}</code></pre>
+                    <br /><br />
+                </div>
+
+                <div class="col-md-8">
+                    {% if account.admin_msg %}
+                        <div class="alert alert-{{ account.get_alert_display }}">
+                            <p><strong>Message du staff : </strong>{{ account.admin_msg|linebreaks|truncatechars:150 }}</p>
+                        </div>
+                    {% endif %}
+                    {% if account.absence != "disponible" %}
+                    <div class="alert alert-warning">Attention, cet utilisateur est {{ account.absence }} !</div>
+                    {% endif %}
+                    <div class="alert alert-info">
+                        <h2 style="margin-top:0;">Profil de {{ account.user }} : </h2>
+                        Inscription : {{ account.user.date_joined }}<br />
+                        Dernière connexion : {{ account.user.last_login }}
+                        <h4>Description </h4>
+                        <p>
+                            {{ account.description|linebreaks }}
+                        </p>
+                    </div>
+                    {% if account.escrow_msg %}
+                        <div class="alert alert-info">
+                            <p><strong>Message de l'escrow : </strong>{{account.escrow_msg|linebreaks|truncatechars:150}}</p>
+                        </div>
+                    {% endif %}
+                    {% if user.account.slug == account.slug %}
+                        <div class="form-group col-md-8">
+                            <a href="{% url 'profileupdate' user.account.slug %}" class="btn btn-success">Modifier le profil</a>&nbsp;&nbsp;
+                            <a href="{% url 'password_change' %}" class="btn btn-warning">Changer le mot de passe</a>
+                        </div>
+                    {% endif %}
+                    <div >
+                        <a href="http://fdwocbsnity6vzwd.onion/profile.php?id={{ account.fdw_id }}" class="btn btn-social btn-facebook">
+                           <strong> Identité FDW : </strong>{{ account.fdw_identity}}
+                        </a>
+                    </div>
+
+                        <div class="form-group col-md-8">
+
+                        <p><strong>Email : </strong>{{ account.email }} </p>
+                        <p><strong>JID : </strong>{{ account.jid }} </p>
+                        <p><strong>IRC : </strong>{{ account.irc }} </p>
+                        <p><strong>RICOCHET : </strong>{{ account.ricochet }} </p>
+                        <p><strong>BITMESSAGE : </strong>{{ account.bitmessage }} </p>
+                        <p><strong>BTC : </strong>{{ account.btc }} </p>
+                    </div>
+
+                </div>
+            </div>
+            <!-- ROW END -->
+
+
+        </section>
+        <!-- SECTION END -->
+    </div>
+    <!-- CONATINER END -->
+
+{% endblock %}
